@@ -1,4 +1,8 @@
-from .start import register_start_handlers
+from aiogram import Router
+from . import start, tasker
 
-def register_all_handlers(dp):
-    register_start_handlers(dp)
+router = Router()
+
+# Include all routers
+router.include_router(start.router)
+router.include_router(tasker.router)

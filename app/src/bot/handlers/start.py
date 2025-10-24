@@ -1,11 +1,8 @@
-from aiogram import Router, types
-from aiogram.filters import Command
+from aiogram import Router, F
+from aiogram.types import Message
 
 router = Router()
 
-@router.message(Command("start"))
-async def cmd_start(message: types.Message):
-    await message.answer("Привет! Я бот.")
-
-def register_start_handlers(dp: Router):
-    dp.include_router(router)
+@router.message(F.text == '/start')
+async def start_handler(message: Message):
+    await message.answer('Hello! Welcome to the bot! Send "add_task" to add a task.')
