@@ -1,17 +1,30 @@
+import asyncio
 import logging
-from aiogram import Bot, Dispatcher, executor
-from app.src.bot.config_bot import SimpleConfig
+from aiogram import Bot, Dispatcher, Router
+from aiogram.fsm.storage.memory import MemoryStorage
 from handlers import register_all_handlers
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-API_TOKEN = SimpleConfig.get_secret_value()
-bot = Bot(token=API_TOKEN)
-dp = Dispatcher(bot)
+router = Router()
 
-# Регистрируем все обработчики
-register_all_handlers(dp)
+API_TOKEN = '7817640220:AAHwWlUDh-bez2BQA3pNflc1BMnvcWo3Cyw'
+
+async def main():
+    # Создаем бот и диспетчер с хранилищем
+    bot = Bot(token=API_TOKEN)
+    storage = MemoryStorage()
+    dp = Dispatcher(storage=storage)
+    
+    # Регистрируем роутер
+    dp.include_router(router)
+    
+    # Регистрируем все обработчики
+    register_all_handlers(dp)
+    
+    # Запускаем бота
+    await dp.start_polling(bot)
 
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+    asyncio.run(main())
