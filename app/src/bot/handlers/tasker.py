@@ -11,4 +11,3 @@ async def add_task_handler(message: Message):
 async def add_task_handler(message: Message):
     first_name = message.from_user.first_name
     await message.answer(f'Send your secondname? {first_name}')
-
