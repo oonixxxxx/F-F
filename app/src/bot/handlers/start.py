@@ -6,6 +6,8 @@ import datetime
 import json
 import os
 
+from app.src.bot.keyboadrs.keyboard_handler import get_main_menu_keyboard
+
 router = Router()
 
 @router.message(Command("start"))
@@ -21,7 +23,10 @@ async def cmd_start(message: types.Message):
     # Сохраняем в базу данных
     save_user_to_json(user_id, username, first_name, last_name)
     
-    await message.answer(f"Привет, {first_name}! Я бот который поможет тебе расспределить твое время правильно")
+    await message.answer(
+        f"Привет, {first_name}! Я бот который поможет тебе расспределить твое время правильно", 
+        reply_markup=get_main_menu_keyboard()  # ← ДОБАВЬТЕ СКОБКИ ЗДЕСЬ
+    )
 
 def print_user_info(user_id, username, first_name, last_name):
     """Выводит подробную информацию о пользователе в терминал"""
@@ -66,8 +71,3 @@ def save_user_to_json(user_id, username, first_name, last_name):
         json.dump(data, f, ensure_ascii=False, indent=2)
     
     print(f"💾 Пользователь {user_id} сохранен в базу данных")
-
-@router.message(F.text == '/start')
-async def start_handler(message: Message):
-    # Этот хендлер дублирует Command("start"), можно удалить
-    await message.answer('Hello! Welcome to the bot! Send "add_task" to add a task.')
