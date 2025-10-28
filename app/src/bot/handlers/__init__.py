@@ -1,8 +1,5 @@
-from aiogram import Router
-from . import start, tasker
+from .start import router as start_router
+from .callbacks.main_menu import router as main_menu_router  
+from .callbacks.today_plan import router as today_plan_router
 
-router = Router()
-
-# Include all routers
-router.include_router(start.router)
-router.include_router(tasker.router)
+__all__ = ['start_router', 'main_menu_router', 'today_plan_router']

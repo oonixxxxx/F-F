@@ -4,22 +4,21 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from handlers.states_handler.statess import TaskListForm
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-
-API_TOKEN = '7817640220:AAHwWlUDh-bez2BQA3pNflc1BMnvcWo3Cyw'
+# Импортируем из одного места
+from app.src.bot.handlers import start_router, main_menu_router, today_plan_router
+from app.src.bot.api_token import API_TOKEN
 
 async def main():
     bot = Bot(token=API_TOKEN)
     dp = Dispatcher(storage=MemoryStorage())
     
-    # Import and register handlers
-    from handlers import router
-    dp.include_router(router)
+    dp.include_router(start_router)
+    dp.include_router(main_menu_router) 
+    dp.include_router(today_plan_router)
     
-    # Delete webhook and start polling
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     asyncio.run(main())
