@@ -49,7 +49,10 @@ def get_tasks_inline_keyboard():
                 InlineKeyboardButton(text="✏️ Редактировать", callback_data="edit_list")
             ],
             [
-                InlineKeyboardButton(text="❌ Удалить", callback_data="delete_list")
+                InlineKeyboardButton(text="➕ Добавить с временем", callback_data="add_task_with_time")
+            ],
+            [
+                InlineKeyboardButton(text="❌ Удалить список", callback_data="delete_list")
             ]
         ]
     )
@@ -60,11 +63,15 @@ def get_edit_inline_keyboard():
         inline_keyboard=[
             [
                 InlineKeyboardButton(text="➕ Добавить задачу", callback_data="add_task"),
-                InlineKeyboardButton(text="➖ Удалить задачу", callback_data="remove_task")
+                InlineKeyboardButton(text="➕ Добавить с временем", callback_data="add_task_with_time")  
             ],
             [
-                InlineKeyboardButton(text="📝 Переименовать", callback_data="rename_task"),
-                InlineKeyboardButton(text="🔄 Перемешать", callback_data="shuffle_tasks")
+                InlineKeyboardButton(text="➖ Удалить задачу", callback_data="remove_task"),
+                InlineKeyboardButton(text="📝 Переименовать", callback_data="rename_task")
+            ],
+            [
+                InlineKeyboardButton(text="🔄 Перемешать", callback_data="shuffle_tasks"),
+                InlineKeyboardButton(text="⏱️ Изменить время", callback_data="edit_task_time")  
             ],
             [
                 InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main")
@@ -91,6 +98,29 @@ def get_confirm_inline_keyboard(action):
             [
                 InlineKeyboardButton(text="✅ Да", callback_data=f"confirm_{action}"),
                 InlineKeyboardButton(text="❌ Нет", callback_data="cancel_action")
+            ]
+        ]
+    )
+
+def get_time_suggestion_keyboard():
+    """
+    Клавиатура с предложениями времени для быстрого выбора
+    """
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="⏱️ 15 мин", callback_data="time_15min"),
+                InlineKeyboardButton(text="⏱️ 30 мин", callback_data="time_30min"),
+                InlineKeyboardButton(text="⏱️ 1 час", callback_data="time_1h")
+            ],
+            [
+                InlineKeyboardButton(text="⏱️ 2 часа", callback_data="time_2h"),
+                InlineKeyboardButton(text="⏱️ 4 часа", callback_data="time_4h"),
+                InlineKeyboardButton(text="⏱️ 1 день", callback_data="time_1d")
+            ],
+            [
+                InlineKeyboardButton(text="✏️ Ввести своё", callback_data="time_custom"),
+                InlineKeyboardButton(text="❌ Отмена", callback_data="cancel_time_input")
             ]
         ]
     )

@@ -7,7 +7,7 @@ from app.src.bot.handlers import router
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-API_TOKEN = ''
+API_TOKEN = '7817640220:AAHwWlUDh-bez2BQA3pNflc1BMnvcWo3Cyw'
 
 async def main():
     bot = Bot(token=API_TOKEN)
