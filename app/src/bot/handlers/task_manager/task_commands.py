@@ -9,7 +9,6 @@ from app.src.bot.handlers.task_manager.task_storage import user_task_lists
 
 router = Router()
 
-
 @router.message(F.text == '/add_tasks_list')
 async def start_task_list(message: Message, state: FSMContext):
     """Начало создания списка задач"""
