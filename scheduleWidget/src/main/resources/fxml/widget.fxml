@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ProgressBar?>
+
+
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.widget.schedule.WidgetController"
+      styleClass="main-container" maxWidth="280" minWidth="280">
+
+    <VBox styleClass="header-container">
+        <Label fx:id="headerTitle" text="API" styleClass="header-title"/>
+        <Label fx:id="headerSubtitle" text="Development" styleClass="header-subtitle"/>
+        <Label fx:id="headerTime" text="9:00 - 11:00" styleClass="header-time"/>
+        <ProgressBar fx:id="progressBar" prefWidth="260" styleClass="task-progress-bar"/>
+    </VBox>
+
+    <!-- Schedule Items Container -->
+    <VBox fx:id="scheduleContainer" styleClass="schedule-container" spacing="6">
+
+        <!-- Schedule Item 1 -->
+        <HBox styleClass="schedule-item" spacing="8">
+            <Label text="●" styleClass="bullet"/>
+            <VBox spacing="1">
+                <Label text="8:00 - 9:00 Good" styleClass="schedule-time"/>
+                <Label text="morning" styleClass="schedule-title"/>
+            </VBox>
+        </HBox>
+
+        <!-- Schedule Item 2 -->
+        <HBox styleClass="schedule-item" spacing="8">
+            <Label text="●" styleClass="bullet"/>
+            <VBox spacing="1">
+                <Label text="9:00 - 10:30 API" styleClass="schedule-time"/>
+                <Label text="Development" styleClass="schedule-title"/>
+            </VBox>
+        </HBox>
+
+        <!-- Schedule Item 3 -->
+        <HBox styleClass="schedule-item" spacing="8">
+            <Label text="●" styleClass="bullet"/>
+            <VBox spacing="1">
+                <Label text="10:45 - 12:00 Study" styleClass="schedule-time"/>
+            </VBox>
+        </HBox>
+
+        <!-- Schedule Item 4 -->
+        <HBox styleClass="schedule-item" spacing="8">
+            <Label text="●" styleClass="bullet"/>
+            <VBox spacing="1">
+                <Label text="13:00 - 14:30 Team" styleClass="schedule-time"/>
+                <Label text="Speak" styleClass="schedule-title"/>
+            </VBox>
+        </HBox>
+
+    </VBox>
+
+</VBox>

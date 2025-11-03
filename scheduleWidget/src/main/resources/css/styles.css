@@ -1,0 +1,103 @@
+.main-container {
+    -fx-background-color: rgba(40, 40, 45, 0.65);
+    -fx-background-radius: 22;
+    -fx-padding: 16;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 1;
+    -fx-border-radius: 22;
+}
+
+/* Header Container - Slightly darker for contrast */
+.header-container {
+    -fx-background-color: rgba(55, 55, 60, 0.7);
+    -fx-background-radius: 18;
+    -fx-padding: 12 16 12 16;
+    -fx-spacing: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0.0, 0, 3);
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-width: 1;
+    -fx-border-radius: 18;
+}
+
+.header-title {
+    -fx-text-fill: rgba(255, 255, 255, 0.95);
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+}
+
+.header-subtitle {
+    -fx-text-fill: rgba(255, 255, 255, 0.95);
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+}
+
+.header-time {
+    -fx-text-fill: rgba(200, 200, 205, 0.85);
+    -fx-font-size: 11px;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+    -fx-padding: 4 0 0 0;
+}
+
+/* Schedule Container */
+.schedule-container {
+    -fx-padding: 12 0 0 0;
+}
+
+/* Schedule Items */
+.schedule-item {
+    -fx-padding: 4 0 4 4;
+    -fx-alignment: center-left;
+}
+
+.bullet {
+    -fx-text-fill: rgba(140, 140, 145, 0.75);
+    -fx-font-size: 10px;
+    -fx-padding: 0;
+}
+
+.schedule-time {
+    -fx-text-fill: rgba(245, 245, 250, 0.9);
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+}
+
+.schedule-title {
+    -fx-text-fill: rgba(245, 245, 250, 0.9);
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+}
+
+.schedule-subtitle {
+    -fx-text-fill: rgba(245, 245, 250, 0.9);
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+}
+
+/* VBox and HBox transparent backgrounds */
+VBox, HBox {
+    -fx-background-color: transparent;
+}
+
+/* Стили для скругленного ProgressBar */
+.task-progress-bar,
+.task-progress-bar > .track,
+.task-progress-bar > .bar {
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+}
+
+.task-progress-bar {
+    -fx-accent: #32b3df;
+    -fx-pref-height: 8px;
+    -fx-background-color: transparent;
+}
+
+.task-progress-bar > .track {
+    -fx-background-color: rgba(100,100,100,0.0);
+}
+
+.task-progress-bar > .bar {
+    -fx-background-insets: 0;
+}
