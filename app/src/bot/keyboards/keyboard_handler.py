@@ -63,7 +63,7 @@ def get_edit_inline_keyboard():
         inline_keyboard=[
             [
                 InlineKeyboardButton(text="➕ Добавить задачу", callback_data="add_task"),
-                InlineKeyboardButton(text="➕ Добавить с временем", callback_data="add_task_with_time")  
+                InlineKeyboardButton(text="➕ Добавить с временем", callback_data="add_task_with_time")
             ],
             [
                 InlineKeyboardButton(text="➖ Удалить задачу", callback_data="remove_task"),
@@ -71,7 +71,7 @@ def get_edit_inline_keyboard():
             ],
             [
                 InlineKeyboardButton(text="🔄 Перемешать", callback_data="shuffle_tasks"),
-                InlineKeyboardButton(text="⏱️ Изменить время", callback_data="edit_task_time")  
+                InlineKeyboardButton(text="⏱️ Изменить время", callback_data="edit_task_time")
             ],
             [
                 InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main")
@@ -83,8 +83,9 @@ def get_edit_inline_keyboard():
 def get_tasks_selection_keyboard(tasks, action):
     keyboard = []
     for i, task in enumerate(tasks, 1):
+        task_text = task["text"] if isinstance(task, dict) else task
         keyboard.append([
-            InlineKeyboardButton(text=f"{i}. {task[:30]}{'...' if len(task) > 30 else ''}", callback_data=f"{action}_{i-1}")
+            InlineKeyboardButton(text=f"{i}. {task_text[:30]}{'...' if len(task_text) > 30 else ''}", callback_data=f"{action}_{i-1}")
         ])
     keyboard.append([
         InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_edit")
@@ -102,6 +103,7 @@ def get_confirm_inline_keyboard(action):
         ]
     )
 
+# ИСПРАВЛЕНИЕ: Добавляем функцию для клавиатуры времени
 def get_time_suggestion_keyboard():
     """
     Клавиатура с предложениями времени для быстрого выбора

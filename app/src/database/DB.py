@@ -3,9 +3,8 @@ import asyncpg
 import logging
 from contextlib import asynccontextmanager
 
-import secret as ss
-import DB_logging as lgn 
-
+from app.src.database import secret as ss
+from app.src.database import DB_logging as lgn 
 
 pool = None  # набор открытых соединений с БД 
 logger = logging.getLogger(__name__)
