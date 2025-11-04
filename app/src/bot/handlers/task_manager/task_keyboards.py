@@ -12,7 +12,6 @@ def get_task_operations_keyboard():
                 InlineKeyboardButton(text="⏱️ Изменить время", callback_data="edit_task_time")
             ],
             [
-                InlineKeyboardButton(text="✅ Выполнить", callback_data="complete_task"),
                 InlineKeyboardButton(text="➖ Удалить", callback_data="remove_task")
             ],
             [

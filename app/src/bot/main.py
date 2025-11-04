@@ -4,20 +4,34 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from app.src.bot.handlers import router
 
+import asyncio
+import os
+from dotenv import load_dotenv
+from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.memory import MemoryStorage
+
+from app.src.bot.handlers import router
+
+load_dotenv()
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
 API_TOKEN = '7817640220:AAHwWlUDh-bez2BQA3pNflc1BMnvcWo3Cyw'
 
 async def main():
+    # Инициализация бота и диспетчера
     bot = Bot(token=API_TOKEN)
-    dp = Dispatcher(storage=MemoryStorage())
+    storage = MemoryStorage()
+    dp = Dispatcher(storage=storage)
     
-    # Import and register handlers
+    # Подключаем роутеры
     dp.include_router(router)
     
-    # Delete webhook and start polling
-    await bot.delete_webhook(drop_pending_updates=True)
+    print("🤖 Бот запущен...")
+    print("💾 Данные сохраняются в JSON файл")
+    
+    # Запускаем бота
     await dp.start_polling(bot)
 
 if __name__ == '__main__':

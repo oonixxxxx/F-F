@@ -41,7 +41,7 @@ def get_tasks_inline_keyboard():
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="✅ Завершить", callback_data="finish_list"),
+                InlineKeyboardButton(text="📊 Получить план", callback_data="get_plan"),
                 InlineKeyboardButton(text="🔄 Очистить", callback_data="clear_list")
             ],
             [

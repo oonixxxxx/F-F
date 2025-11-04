@@ -19,12 +19,12 @@ from .task_storage import user_task_lists, user_edit_data
 
 router = Router()
 
-
 @router.callback_query(F.data.in_([
     "finish_list", "clear_list", "show_list", "edit_list", 
     "delete_list", "back_to_main", "add_task", "remove_task", 
     "rename_task", "shuffle_tasks", "cancel_action", "back_to_edit",
-    "add_task_with_time", "time_custom", "cancel_time_input"
+    "add_task_with_time", "time_custom", "cancel_time_input",
+    "get_plan"
 ]))
 async def handle_inline_buttons(callback: CallbackQuery, state: FSMContext):
     """Единая точка входа для обработки inline-кнопок"""
@@ -32,6 +32,18 @@ async def handle_inline_buttons(callback: CallbackQuery, state: FSMContext):
     action = callback.data
     
     await callback.answer()
+    
+    # Функция get_plan определена внутри, чтобы избежать проблем с порядком
+    async def get_plan(callback: CallbackQuery, state: FSMContext):
+        user_id = callback.from_user.id
+        sorted_tasks = 'Итоговый план'  # await ask_qwen_to_sort_tasks(user_id)
+
+        if sorted_tasks:
+            reply = "Вот твой отсортированный план:\n" + "\n".join(f"- {t}" for t in [sorted_tasks])
+        else:
+            reply = "Не удалось обработать задачи."
+
+        await callback.message.edit_text(reply)
     
     action_handlers = {
         "finish_list": finish_task_list,
@@ -49,6 +61,7 @@ async def handle_inline_buttons(callback: CallbackQuery, state: FSMContext):
         "add_task_with_time": add_task_with_time_handler,
         "time_custom": time_custom_handler,
         "cancel_time_input": cancel_time_input_handler,
+        "get_plan": get_plan
     }
     
     handler = action_handlers.get(action)
