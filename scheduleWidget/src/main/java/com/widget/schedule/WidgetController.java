@@ -55,9 +55,7 @@ public class WidgetController {
         refreshScheduleDisplay();
         updateCurrentTask();
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(60), event -> {
-            updateCurrentTask();
-        }));
+        timeline = new Timeline(new KeyFrame(Duration.seconds(60), event -> updateCurrentTask()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
