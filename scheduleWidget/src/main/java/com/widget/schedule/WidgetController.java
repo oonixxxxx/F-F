@@ -1,5 +1,7 @@
 package com.widget.schedule;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -8,10 +10,14 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WidgetController {
@@ -37,10 +43,14 @@ public class WidgetController {
     @FXML
     public void initialize() {
         // Пример задач
-        tasks.add(new ScheduleTask("Good", "morning", "08:00", "09:00"));
-        tasks.add(new ScheduleTask("API", "Development", "09:00", "10:30"));
-        tasks.add(new ScheduleTask("Study", "", "10:45", "12:00"));
-        tasks.add(new ScheduleTask("Team", "Speak", "13:00", "20:07"));
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            tasks = Arrays.asList(
+                    mapper.readValue(new File("tasks.json"), ScheduleTask[].class)
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         refreshScheduleDisplay();
         updateCurrentTask();
@@ -168,7 +178,12 @@ public class WidgetController {
         private final String startTime;
         private final String endTime;
 
-        public ScheduleTask(String title, String subtitle, String startTime, String endTime) {
+        @JsonCreator
+        public ScheduleTask(
+                @JsonProperty("title") String title,
+                @JsonProperty("subtitle") String subtitle,
+                @JsonProperty("startTime") String startTime,
+                @JsonProperty("endTime") String endTime) {
             this.title = title;
             this.subtitle = subtitle;
             this.startTime = startTime;
