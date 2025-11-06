@@ -101,3 +101,84 @@ VBox, HBox {
 .task-progress-bar > .bar {
     -fx-background-insets: 0;
 }
+
+/* ========== СТИЛИ ДЛЯ ОКНА АВТОРИЗАЦИИ ========== */
+
+/* Login Container */
+.login-container {
+    -fx-background-color: rgba(40, 40, 45, 0.75);
+    -fx-background-radius: 22;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 1;
+    -fx-border-radius: 22;
+}
+
+/* Login Title */
+.login-title {
+    -fx-text-fill: rgba(255, 255, 255, 0.95);
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+}
+
+/* Login Subtitle */
+.login-subtitle {
+    -fx-text-fill: rgba(200, 200, 205, 0.85);
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Login Label */
+.login-label {
+    -fx-text-fill: rgba(245, 245, 250, 0.9);
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+}
+
+/* Login TextField */
+.login-text-field {
+    -fx-background-color: rgba(60, 60, 65, 0.8);
+    -fx-background-radius: 8;
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-text-fill: rgba(255, 255, 255, 0.95);
+    -fx-prompt-text-fill: rgba(160, 160, 165, 0.7);
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+    -fx-padding: 8 12 8 12;
+}
+
+.login-text-field:focused {
+    -fx-border-color: #32b3df;
+    -fx-border-width: 2;
+}
+
+/* Login Button */
+.login-button {
+    -fx-background-color: #32b3df;
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(50, 179, 223, 0.3), 8, 0.0, 0, 2);
+}
+
+.login-button:hover {
+    -fx-background-color: #2da3cc;
+}
+
+.login-button:pressed {
+    -fx-background-color: #2593b9;
+}
+
+/* Error Label */
+.error-label {
+    -fx-text-fill: #ff6b6b;
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Arial", sans-serif;
+}

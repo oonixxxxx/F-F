@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.widget.schedule.LoginController"
+      styleClass="login-container" maxWidth="300" minWidth="300"
+      spacing="15" alignment="CENTER">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <Label text="Вход в систему" styleClass="login-title"/>
+    <Label text="Введите токен доступа" styleClass="login-subtitle"/>
+    <VBox spacing="8">
+        <Label text="Токен:" styleClass="login-label"/>
+        <TextField fx:id="tokenField" promptText="Введите токен..." styleClass="login-text-field"/>
+    </VBox>
+    <Label fx:id="errorLabel" text="" styleClass="error-label" visible="false"/>
+    <Button fx:id="loginButton" text="Войти" styleClass="login-button" onAction="#handleLogin" prefWidth="260"/>
+</VBox>
