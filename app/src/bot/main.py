@@ -4,12 +4,18 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from app.src.bot.handlers import router
 
+from app.src.database import DB as db
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
 API_TOKEN = '7817640220:AAHwWlUDh-bez2BQA3pNflc1BMnvcWo3Cyw'
 
 async def main():
+    #init db
+    await db.init_db()
+    await db.test_db_connection()
+
     bot = Bot(token=API_TOKEN)
     dp = Dispatcher(storage=MemoryStorage())
     

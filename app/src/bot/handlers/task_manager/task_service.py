@@ -21,6 +21,9 @@ from .task_storage import (
     get_user_tasks
 )
 
+from app.src.database import DB as db 
+
+
 
 def initialize_user_task_list(user_id: int) -> None:
     """Инициализация списка задач для пользователя"""
@@ -307,7 +310,9 @@ async def save_task_with_time(update: Union[Message, CallbackQuery], state: FSMC
         initialize_user_task_list(user_id)
     
     # Создаем структуру задачи с временем
-    task_data = create_task_data(task_text, task_time)
+    task_data = task_text + " " + task_time
+
+    db.save_user_tasks(user_id, task_data, priority="high")
     
     # Добавляем задачу в список пользователя
     user_task_lists[user_id]['tasks'].append(task_data)

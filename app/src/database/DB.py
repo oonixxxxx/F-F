@@ -1,19 +1,22 @@
-import asyncio
-import asyncpg 
+import asyncpg
 import logging
+import asyncio 
 from contextlib import asynccontextmanager
 
+#import secret as ss
 from app.src.database import secret as ss
-from app.src.database import DB_logging as lgn 
+#import DB_logging as lgn  
+from app.src.database import DB_logging as lgn
 
-pool = None  # набор открытых соединений с БД 
+pool = None  # наборы соединений с бд 
 logger = logging.getLogger(__name__)
 
 
 async def init_db():
+    print(f"🔌 Подключение к БД по URL: {ss.DATABASE_URL}")
     global pool  
     real_pool = await asyncpg.create_pool(ss.DATABASE_URL)
-    pool = lgn.LoggingPool(real_pool)
+    pool = real_pool
 
 
 @asynccontextmanager
@@ -29,16 +32,15 @@ async def get_db_connection():
         соединение возвращается в pool, а не закрывается
     '''
     async with pool.acquire() as conn:
-        wrapped_conn = lgn.LoggingConnection(conn)
-        yield wrapped_conn  
-
+        #wrapped_conn = lgn.LoggingConnection(conn)
+        yield conn 
 
 
 async def get_user_prefs(user_id: int):
     async with get_db_connection() as conn:
         # $1 - позволяет избежать sql инъенкций 
         query = "SELECT productivity_time, notes FROM users WHERE user_id = $1"
-        row = await conn.fetchrow(query, user_id)  # выполняет запрос и возвращает 
+        row = await conn.fetch(query, user_id)  # выполняет запрос и возвращает 
         return row 
 
 
@@ -57,15 +59,67 @@ async def save_user_prefs(user_id: int, prod_time: str, notes: str):
 async def get_user_tasks(user_id: int):
     async with get_db_connection() as conn:
         query = "SELECT title, priority FROM tasks WHERE user_id=$1"
-        row = await conn.fetchrow(query, user_id)
-        return row 
+        rows = await conn.fetch(query, user_id)
+        return [dict(r) for r in rows]
 
 
 async def save_user_tasks(user_id: int, title: str, priority: int):
     async with get_db_connection() as conn:
         query = """
-            INSERT INTO tasks (user_id, title, priority, created_at)
-            VALUES ($1, $2, $3, $4)
+            INSERT INTO tasks (user_id, title, priority)
+            VALUES ($1, $2, $3)
         """
-        await conn.execute(query, user_id, title, priority, created_at)
+        await conn.execute(query, user_id, title, priority)#, created_at)
 
+
+async def del_user_task(user_id: int, title: str):
+    async with get_db_connection() as conn:
+        query = """
+            
+        """
+
+
+async def test_db_connection():
+    """
+    Тестирует подключение к БД: пингует, создаёт тестовую таблицу (если нужно),
+    вставляет и читает данные.
+    """
+    try:
+        async with get_db_connection() as conn:
+            # Проверим, можем ли мы выполнить простой запрос
+            await conn.execute("SELECT 1;")
+            print("✅ Подключение к БД успешно установлено.")
+
+            # Попробуем вставить тестовую запись в таблицу users
+            await conn.execute(
+                "INSERT INTO users (user_id, productivity_time, notes) VALUES ($1, $2, $3) ON CONFLICT (user_id) DO NOTHING;",
+                99998, "тест", "проверка подключения из Python"
+            )
+            print("✅ Тестовая запись добавлена (или проигнорирована, если уже существует).")
+
+            # Попробуем получить запись
+            row = await conn.fetchrow("SELECT * FROM users WHERE user_id = $1", 99998)
+            if row:
+                print(f"✅ Данные из БД: {dict(row)}")
+            else:
+                print("⚠️ Запись не найдена (неожиданно).")
+
+    except Exception as e:
+        print(f"❌ Ошибка при подключении к БД: {e}")
+        return False
+
+    print("✅ Подключение к БД работает корректно!")
+    return True
+
+
+async def main():
+    await init_db()
+    await test_db_connection()
+
+    #result = await api.ask_qwen_to_sort_tasks(12345)
+    #print("Результат сортировки задач:")
+    #print(result)
+
+
+#if __name__ == "__main__":
+    #asyncio.run(main())
