@@ -1,17 +1,17 @@
 import os 
 import json 
 from openai import OpenAI 
-from typing import Dict 
+from typing import Dict
+import ast
+import json 
 
-import secret as ss
-import DB_alchemy as db 
-
+from app.src.database.secret import API_TOKEN
+import DB_alchemy as db
 
 client = OpenAI(
     base_url="https://router.huggingface.co/v1",
-    api_key=ss.API_TOKEN,
+    api_key=API_TOKEN,
 )
-
 
 async def get_user_tasks_and_prefs(user_id: int) -> tuple:
     prefs = await db.get_user_prefs(user_id)  
@@ -67,7 +67,7 @@ async def ask_qwen_to_sort_tasks(user_id: int) -> Dict[str, any]:
                     Пожалуйста, отсортируй задачи по времени дня и приоритету, учитывая мою продуктивность.
                     Верни результат в формате JSON, где каждая задача содержит поля:
                         название задачи: 
-                            время начала: _time,
+                       x     время начала: _time,
                             время окончания: _time
                     Ответ должен быть только валидный JSON, без дополнительного текста.
                 """
@@ -95,8 +95,70 @@ async def ask_qwen_to_sort_tasks(user_id: int) -> Dict[str, any]:
         print(f"ERROR of parsing: {e}")
         return None 
 
+import json
+import re
 
+def save_to_json(answer_text, output_filename='answer.json'):
+    """
+    Пытается сохранить answer_text как JSON в файл.
+    
+    Поддерживает:
+      - уже распарсенный dict/list
+      - строку с чистым JSON
+      - строку в блоке ```json ... ```
+    
+    Возвращает:
+      - True, если успешно сохранено
+      - False, если не удалось
+    """
+    if answer_text is None:
+        print("❌ Ответ пуст (None)")
+        return False
 
+    # Если уже Python-объект (dict/list) — сразу сохраняем
+    if isinstance(answer_text, (dict, list)):
+        try:
+            with open(output_filename, 'w', encoding='utf-8') as f:
+                json.dump(answer_text, f, ensure_ascii=False, indent=2)
+            print(f"✅ Успешно сохранено в {output_filename}")
+            return True
+        except Exception as e:
+            print(f"❌ Ошибка при сохранении объекта: {e}")
+            return False
 
+    # Если это не строка — нечего парсить
+    if not isinstance(answer_text, str):
+        print(f"❌ Неподдерживаемый тип данных: {type(answer_text)}")
+        print(f"Значение: {repr(answer_text)}")
+        return False
 
+    # Очистка от markdown-блоков: ```json ... ``` или просто ```
+    cleaned = answer_text.strip()
+    match = re.search(r"```(?:json)?\s*(.*?)\s*```", cleaned, re.DOTALL)
+    if match:
+        cleaned = match.group(1).strip()
+    else:
+        # Если нет блока — используем как есть
+        pass
 
+    if not cleaned:
+        print("❌ Пустая строка после очистки")
+        return False
+
+    # Попытка распарсить как JSON
+    try:
+        data = json.loads(cleaned)
+        with open(output_filename, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print(f"✅ JSON успешно сохранён в {output_filename}")
+        return True
+    except json.JSONDecodeError as e:
+        print(f"❌ Не удалось распарсить JSON: {e}")
+        print(f"Сырой текст: {repr(cleaned)}")
+        return False
+    except Exception as e:
+        print(f"❌ Неожиданная ошибка: {e}")
+        return False
+
+if __name__ == "__main__":
+    ask_qwen_to_sort_tasks

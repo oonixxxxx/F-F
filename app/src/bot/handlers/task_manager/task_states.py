@@ -6,7 +6,7 @@ from datetime import datetime
 from app.src.bot.states_handler.statess import TaskListForm
 from app.src.bot.keyboards.keyboard_handler import get_tasks_inline_keyboard, get_time_suggestion_keyboard
 from app.src.bot.handlers.task_manager.task_service import add_simple_task, create_task_data, save_task_with_time
-from .task_storage import user_task_lists, user_edit_data
+from app.src.bot.handlers.task_manager.task_storage import user_task_lists, user_edit_data
 
 router = Router()
 

@@ -1,7 +1,13 @@
 import asyncio
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy import select, insert, update
-from models import User, Task, AISortedTask  # твои модели
+#from app.src.database.models import User, Task, AISortedTask  # твои модели
+from models import User, Task, AISortedTask
+
+
+#import secret as ss
+#from app.src.database import secret as ss
+#import app.src.database.API as api
 
 import secret as ss
 import API as api

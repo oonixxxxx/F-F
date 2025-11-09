@@ -15,7 +15,7 @@ from app.src.bot.handlers.task_manager.task_service import (
     back_to_main_inline, add_task_inline, remove_task_inline,
     rename_task_inline, shuffle_tasks_inline, cancel_action_inline
 )
-from .task_storage import user_task_lists, user_edit_data
+from app.src.bot.handlers.task_manager.task_storage import user_task_lists, user_edit_data
 
 router = Router()
 

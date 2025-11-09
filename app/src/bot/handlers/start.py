@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 
 from app.src.bot.keyboards.keyboard_handler import get_main_menu_keyboard
+from app.src.bot.handlers.start_func import json_func_start
 
 router = Router()
 
@@ -10,8 +11,25 @@ router = Router()
 async def start_handler(message: Message):
     """
     Обработчик команды /start
-    Приветствует пользователя и показывает главное меню
+    Приветствует пользователя и показывает главное меню и сохраняет пользователя и его данные в json
     """
+
+    user_id = message.from_user.id
+    first_name = message.from_user.first_name or ""
+    last_name = message.from_user.last_name or ""
+
+    users = json_func_start.load_users()
+
+    # Если пользователь новый — добавляем его
+    if str(user_id) not in users:
+        users[str(user_id)] = {
+            "user_id": user_id,
+            "first_name": first_name,
+            "last_name": last_name,
+            "subscription_status": "standard"  # по умолчанию
+        }
+        json_func_start.save_users(users)
+
     welcome_text = (
         "👋 Добро пожаловать в Task Manager Bot!\n\n"
         "📝 Я помогу вам управлять задачами и создавать списки дел.\n\n"

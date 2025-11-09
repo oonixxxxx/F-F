@@ -21,7 +21,7 @@ from .task_storage import (
     get_user_tasks
 )
 
-from app.src.database import DB as db 
+from app.src.database import DB_alchemy as db 
 
 
 
